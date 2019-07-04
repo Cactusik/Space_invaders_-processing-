@@ -1,0 +1,99 @@
+class Gracz(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.speed = 8
+        
+    def show(self):
+        fill(241, 196, 15)
+        circle(self.x, self.y, 55)
+        
+    def ogranicznik(self):
+        if (self.x >= (700 - 42)):
+            self.x = (700 - 42)
+            
+        if (self.x <= 42):
+            self.x = 42
+        
+    def move(self, kierunek):
+        Gracz.ogranicznik(self)
+        
+        if kierunek == "left":
+            self.x -= self.speed
+            
+        if kierunek == "right":
+            self.x += self.speed
+            
+            
+    def shot(self):
+        bullet = Bullet(self.x, self.y)
+        bullet.move("statek")
+            
+        
+###################################################        
+        
+class Bullet(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.speed = 10
+        
+    def show(self):
+        fill(0)
+        rect(self.x, self.y, 2, 10)
+        
+    def move(self, shooter):
+        if shooter == "statek":
+            self.y -= self.speed
+            Bullet.show(self)
+            
+        if shooter == "enemy":
+            self.y += self.speed   
+            Bullet.show(self)     
+        
+#####################################################        
+        
+class Enemy(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.speed = 4
+        
+    def show(self):
+        fill(255)
+        circle(self.x, self.y, 60)
+        
+    def move(self):
+        pass
+
+#####################################################33
+
+global statek
+statek = Gracz(335, 465)
+
+def setup():
+    size(700, 500)
+
+    
+def draw():
+    background(74, 35, 90)
+    
+    global statek    
+    statek.show()
+
+    if keyPressed and keyCode == LEFT:
+        statek.move("left")
+                
+    if keyPressed and keyCode == RIGHT:
+        statek.move("right")
+
+    if keyCode == 32:
+        statek.shot()
+        
+
+def keyReleased():
+    if keyCode == LEFT:
+        statek.left = 0
+        
+    if keyCode == RIGHT:
+        statek.right = 0
